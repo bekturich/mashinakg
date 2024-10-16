@@ -1,20 +1,20 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.models import PositiveSmallIntegerField, DecimalField
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-class UserProfile(models.Model):
-    country = models.CharField(max_length=33)
+class UserProfile(AbstractUser):
+    country = models.CharField(max_length=33, null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
-    phone_number = PhoneNumberField(region='KG', blank=True)
+    phone_number = PhoneNumberField(region='KG', null=True, blank=True)
 
 
 class Category(models.Model):
     category_name = models.CharField(max_length=33, unique=True)
 
     def str(self):
-        return f'{self.category_name}'
+        return self.category_name
 
 
 class CarMake(models.Model):
@@ -45,16 +45,16 @@ class Contact(models.Model):
 class Car(models.Model):
     car_name = models.CharField(max_length=33)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    Car_Make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    model = models.ForeignKey(Model, on_delete=models.CASCADE)
+    Car_Make = models.ForeignKey(CarMake, verbose_name='Марка', on_delete=models.CASCADE)
+    model = models.ForeignKey(Model, verbose_name='Модель', on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    price = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     year = models.PositiveIntegerField()
     add_date = models.DateField(verbose_name='Время', auto_now_add=True)
     mileage = models.PositiveSmallIntegerField(verbose_name='Пробег', default=0)
     image = models.ImageField(upload_to='машины/', blank=True, null=True)
     with_photo = models.BooleanField(default=True)
-    color = models.CharField(max_length=33)
+    color = models.CharField(verbose_name='Цвет', max_length=33)
     CHOICES_DRIVE = (
         ("задний", "ЗАДНИЙ"),
         ("передний", "ПЕРЕДНИЙ"),
