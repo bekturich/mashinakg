@@ -10,16 +10,8 @@ class UserProfile(AbstractUser):
     phone_number = PhoneNumberField(region='KG', null=True, blank=True)
 
 
-class Category(models.Model):
-    category_name = models.CharField(max_length=33, unique=True)
-
-    def str(self):
-        return self.category_name
-
-
 class CarMake(models.Model):
     car_make_name = models.CharField(max_length=33, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def str(self):
         return f'{self.car_make_name}'
@@ -44,7 +36,6 @@ class Contact(models.Model):
 
 class Car(models.Model):
     car_name = models.CharField(max_length=33)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     Car_Make = models.ForeignKey(CarMake, verbose_name='Марка', on_delete=models.CASCADE)
     model = models.ForeignKey(Model, verbose_name='Модель', on_delete=models.CASCADE)
     description = models.TextField(blank=True)
@@ -55,6 +46,7 @@ class Car(models.Model):
     image = models.ImageField(upload_to='машины/', blank=True, null=True)
     with_photo = models.BooleanField(default=True)
     color = models.CharField(verbose_name='Цвет', max_length=33)
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     CHOICES_DRIVE = (
         ("задний", "ЗАДНИЙ"),
         ("передний", "ПЕРЕДНИЙ"),

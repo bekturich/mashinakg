@@ -11,22 +11,10 @@ class UserSerializers(serializers.ModelSerializer):
         fields = ['username', 'email', 'password', 'phone_number', 'age']
         extra_kwargs = {'password': {'write_only': True}}
 
-
     def create(self, validated_data):
         user = UserProfile.objects.create_user(**validated_data)
         return user
 
-    def to_representation(self, instance):
-        refresh = RefreshToken.for_user(instance)
-        return {
-            'user': {
-                'username': instance.username,
-                'email': instance.email,
-               # 'phone_number': instance.phone_number,
-            },
-            #'access': str(refresh.access_token),
-            #'refresh': str(refresh),
-        }
 
 class LoginSerializers(serializers.Serializer):
     username = serializers.CharField()
@@ -55,40 +43,42 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = '__all__'
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
 
 class CarMakeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarMake
         fields = '__all__'
 
+
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = '__all__'
+
 
 class ModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Model
         fields = '__all__'
 
+
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
         fields = '__all__'
+
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
 
+
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = '__all__'
+
 
 class FavoriteCarSerializer(serializers.ModelSerializer):
     class Meta:

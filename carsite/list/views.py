@@ -1,5 +1,4 @@
 from rest_framework import viewsets, permissions, generics, status, reverse
-from .models import *
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import CarFilter
@@ -7,6 +6,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
+from .permissions import CheckOwner
 
 
 class RegisterView(generics.CreateAPIView):
@@ -51,23 +51,23 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
 
 class CarMakeViewSet(viewsets.ModelViewSet):
     queryset = CarMake.objects.all()
     serializer_class = CarMakeSerializer
 
+
 class ModelViewSet(viewsets.ModelViewSet):
     queryset = Model.objects.all()
     serializer_class = ModelSerializer
+
 
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-class CarViewSet(viewsets.ModelViewSet):
+
+class CarListViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
@@ -76,13 +76,25 @@ class CarViewSet(viewsets.ModelViewSet):
     search_fields = ['year', 'city', 'engine', 'transmission']
     permission_classes = [permissions.AllowAny]
 
+
+class CarDetailViewSet(viewsets.ModelViewSet):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
+    permission_classes = [permissions.AllowAny, CheckOwner]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+
 class FavoriteViewSet(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+
 
 class FavoriteCarViewSet(viewsets.ModelViewSet):
     queryset = FavoriteCar.objects.all()
