@@ -61,26 +61,18 @@ class ModelViewSet(viewsets.ModelViewSet):
     queryset = Model.objects.all()
     serializer_class = ModelSerializer
 
-<<<<<<< HEAD
 class CarViewSet(viewsets.ModelViewSet):
-=======
-
-class ContactViewSet(viewsets.ModelViewSet):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-
-
-class CarListViewSet(viewsets.ModelViewSet):
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = CarFilter
     filterset_fields = ['Car_Make', 'category', 'model', 'price']
     search_fields = ['year', 'city', 'engine', 'transmission']
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny, CheckOwner]
 
-<<<<<<< HEAD
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 class CarListViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarListSerializer
@@ -89,17 +81,6 @@ class CarListViewSet(viewsets.ModelViewSet):
     filterset_fields = ['Car_Make', 'category', 'model', 'price']
     search_fields = ['year', 'city', 'engine', 'transmission']
     permission_classes = [permissions.AllowAny]
-=======
-
-class CarDetailViewSet(viewsets.ModelViewSet):
-    queryset = Car.objects.all()
-    serializer_class = CarSerializer
-    permission_classes = [permissions.AllowAny, CheckOwner]
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()

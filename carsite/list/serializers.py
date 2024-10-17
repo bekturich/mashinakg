@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['username', 'email', 'password', 'phone_number', 'age']
+        fields = ['username', 'last_name', 'first_name', 'email', 'password', 'phone_number', 'age']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -41,30 +41,12 @@ class LoginSerializers(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = '__all__'
-
-<<<<<<< HEAD
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['category_name']
-=======
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
+        fields = ['first_name', 'last_name', 'age', 'phone_number']
 
 class CarMakeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarMake
-<<<<<<< HEAD
         fields = ['car_make_name']
-=======
-        fields = '__all__'
-
-
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = '__all__'
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
 
 
 class ModelSerializer(serializers.ModelSerializer):
@@ -73,34 +55,39 @@ class ModelSerializer(serializers.ModelSerializer):
         fields = ['model_name']
 
 
+class CarListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Car
+        fields = ['car_name', 'price', 'image', 'year', 'city']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    car = CarListSerializer()
+    created_date = serializers.DateTimeField(format('%d-%m-%Y %H:%M'))
+    class Meta:
+        model = Comment
+        fields = ['author', 'text', 'car', 'parent_review', 'created_date']
+
 class CarSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
     Car_Make = CarMakeSerializer()
     model = ModelSerializer()
     class Meta:
         model = Car
-        fields = ['car_name', 'category', 'Car_Make', 'model', 'description', 'price', 'year', 'add_date', 'mileage',
-                  'image', 'with_photo', 'color', 'drive', 'engine', 'transmission', 'volume', 'rudder', 'state']
-
-class CarListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Car
-        fields = ['car_name', 'price', 'image', 'year']
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = '__all__'
-
+        fields = ['car_name', 'add_date', 'Car_Make', 'model', 'price',
+                  'year', 'mileage', 'color', 'volume', 'transmission', 'drive', 'rudder', 'state', 'country', 'city', 'description',
+                  'image', 'with_photo', 'engine']
 
 class FavoriteSerializer(serializers.ModelSerializer):
+    created_date = serializers.DateTimeField(format('%d-%m-%Y %H:%M'))
+    user = UserProfileSerializer()
     class Meta:
         model = Favorite
         fields = '__all__'
 
 
 class FavoriteCarSerializer(serializers.ModelSerializer):
+    cart = FavoriteSerializer()
+    car = CarListSerializer()
     class Meta:
         model = FavoriteCar
-        fields = '__all__'
+        fields = ['cart', 'car']

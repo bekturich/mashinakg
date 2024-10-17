@@ -9,17 +9,6 @@ class UserProfile(AbstractUser):
     age = models.IntegerField(null=True, blank=True)
     phone_number = PhoneNumberField(region='KG', null=True, blank=True)
 
-
-<<<<<<< HEAD
-class Category(models.Model):
-    category_name = models.CharField(max_length=33, unique=True)
-
-    def __str__(self):
-        return self.category_name
-
-
-=======
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
 class CarMake(models.Model):
     car_make_name = models.CharField(max_length=33, unique=True)
 
@@ -95,7 +84,6 @@ class Comment(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     parent_review = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return f'{self.author} - {self.car}'
 

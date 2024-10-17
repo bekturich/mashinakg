@@ -6,17 +6,10 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
-<<<<<<< HEAD
+
     path('', CarListViewSet.as_view({'get': 'list'}), name= 'car_list'),
     path('<int:pk>/', CarViewSet.as_view({'get': 'retrieve',
                                           'put': 'update', 'delete': 'destroy'}), name='car_detail'),
-=======
-    path('', CarListViewSet.as_view({'get': 'list',
-                                 'post': 'create'}), name='car_list'),
-    path('<int:pk>/', CarDetailViewSet.as_view({'get': 'retrieve',
-                                                'put': 'update', 'delete': 'destroy'}), name='car_detail'),
-
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
 
     path('user', UserProfileViewSet.as_view({'get': 'list',
                                              'post': 'create'}), name='user_list'),
@@ -35,16 +28,6 @@ urlpatterns = [
     path('model/<int:pk>/', ModelViewSet.as_view({'get': 'retrieve',
                                                   'put': 'update', 'delete': 'destroy'}), name='model_detail'),
 
-<<<<<<< HEAD
-=======
-
-    path('contact', ContactViewSet.as_view({'get': 'list',
-                                           'post': 'create'}), name='contact_list'),
-    path('contact/<int:pk>/', ContactViewSet.as_view({'get': 'retrieve',
-                                                     'put': 'update', 'delete': 'destroy'}), name='contact_detail'),
-
-
->>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
     path('comment', CommentViewSet.as_view({'get': 'list',
                                             'post': 'create'}), name='comment_list'),
     path('comment/<int:pk>/', CommentViewSet.as_view({'get': 'retrieve',
