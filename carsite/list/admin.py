@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import *
 from modeltranslation.admin import TranslationAdmin
 
+
 @admin.register(Car)
 class CarAdmin(TranslationAdmin):
     class Media:
@@ -16,7 +17,6 @@ class CarAdmin(TranslationAdmin):
 
 
 admin.site.register(UserProfile)
-admin.site.register(Category)
 admin.site.register(CarMake)
 admin.site.register(Model)
 admin.site.register(Comment)

@@ -11,22 +11,10 @@ class UserSerializers(serializers.ModelSerializer):
         fields = ['username', 'email', 'password', 'phone_number', 'age']
         extra_kwargs = {'password': {'write_only': True}}
 
-
     def create(self, validated_data):
         user = UserProfile.objects.create_user(**validated_data)
         return user
 
-    def to_representation(self, instance):
-        refresh = RefreshToken.for_user(instance)
-        return {
-            'user': {
-                'username': instance.username,
-                'email': instance.email,
-               # 'phone_number': instance.phone_number,
-            },
-            #'access': str(refresh.access_token),
-            #'refresh': str(refresh),
-        }
 
 class LoginSerializers(serializers.Serializer):
     username = serializers.CharField()
@@ -55,20 +43,35 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = '__all__'
 
+<<<<<<< HEAD
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['category_name']
+=======
+>>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
 
 class CarMakeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarMake
+<<<<<<< HEAD
         fields = ['car_make_name']
+=======
+        fields = '__all__'
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+>>>>>>> b0e9459585686b4d6deb42d662de8d1152aca38b
+
 
 class ModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Model
         fields = ['model_name']
+
 
 class CarSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
@@ -84,15 +87,18 @@ class CarListSerializer(serializers.ModelSerializer):
         model = Car
         fields = ['car_name', 'price', 'image', 'year']
 
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
 
+
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = '__all__'
+
 
 class FavoriteCarSerializer(serializers.ModelSerializer):
     class Meta:
