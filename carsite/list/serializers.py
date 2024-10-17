@@ -58,27 +58,31 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['category_name']
 
 class CarMakeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarMake
-        fields = '__all__'
-
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = '__all__'
+        fields = ['car_make_name']
 
 class ModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Model
-        fields = '__all__'
+        fields = ['model_name']
 
 class CarSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    Car_Make = CarMakeSerializer()
+    model = ModelSerializer()
     class Meta:
         model = Car
-        fields = '__all__'
+        fields = ['car_name', 'category', 'Car_Make', 'model', 'description', 'price', 'year', 'add_date', 'mileage',
+                  'image', 'with_photo', 'color', 'drive', 'engine', 'transmission', 'volume', 'rudder', 'state']
+
+class CarListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Car
+        fields = ['car_name', 'price', 'image', 'year']
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

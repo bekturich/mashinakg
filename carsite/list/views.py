@@ -63,13 +63,18 @@ class ModelViewSet(viewsets.ModelViewSet):
     queryset = Model.objects.all()
     serializer_class = ModelSerializer
 
-class ContactViewSet(viewsets.ModelViewSet):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_class = CarFilter
+    filterset_fields = ['Car_Make', 'category', 'model', 'price']
+    search_fields = ['year', 'city', 'engine', 'transmission']
+    permission_classes = [permissions.AllowAny]
+
+class CarListViewSet(viewsets.ModelViewSet):
+    queryset = Car.objects.all()
+    serializer_class = CarListSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = CarFilter
     filterset_fields = ['Car_Make', 'category', 'model', 'price']

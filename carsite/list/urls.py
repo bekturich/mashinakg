@@ -6,8 +6,7 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
-    path('', CarViewSet.as_view({'get': 'list',
-                                 'post': 'create'}), name= 'car_list'),
+    path('', CarListViewSet.as_view({'get': 'list'}), name= 'car_list'),
     path('<int:pk>/', CarViewSet.as_view({'get': 'retrieve',
                                           'put': 'update', 'delete': 'destroy'}), name='car_detail'),
 
@@ -30,11 +29,6 @@ urlpatterns = [
                                         'post': 'create'}), name='model_list'),
     path('model/<int:pk>/', ModelViewSet.as_view({'get': 'retrieve',
                                                   'put': 'update', 'delete': 'destroy'}), name='model_detail'),
-
-    path('contact', ContactViewSet.as_view({'get': 'list',
-                                 'post': 'create'}), name='contact_list'),
-    path('contact/<int:pk>/', ContactViewSet.as_view({'get': 'retrieve',
-                                          'put': 'update', 'delete': 'destroy'}), name='contact_detail'),
 
     path('comment', CommentViewSet.as_view({'get': 'list',
                                             'post': 'create'}), name='comment_list'),

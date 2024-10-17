@@ -13,7 +13,7 @@ class UserProfile(AbstractUser):
 class Category(models.Model):
     category_name = models.CharField(max_length=33, unique=True)
 
-    def str(self):
+    def __str__(self):
         return self.category_name
 
 
@@ -21,7 +21,7 @@ class CarMake(models.Model):
     car_make_name = models.CharField(max_length=33, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    def str(self):
+    def __str__(self):
         return f'{self.car_make_name}'
 
 
@@ -29,18 +29,8 @@ class Model(models.Model):
     model_name = models.CharField(max_length=33, unique=True)
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
 
-    def str(self):
-        return f'{self.car_make} - {self.model_name}'
-
-
-class Contact(models.Model):
-    city = models.CharField(max_length=33)
-    country = models.CharField(verbose_name='Страна', max_length=33)
-    number = PhoneNumberField(region='KG', blank=True)
-
     def __str__(self):
-        return f"{self.country} - {self.number}"
-
+        return f'{self.car_make} - {self.model_name}'
 
 class Car(models.Model):
     car_name = models.CharField(max_length=33)
@@ -49,6 +39,8 @@ class Car(models.Model):
     model = models.ForeignKey(Model, verbose_name='Модель', on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    city = models.CharField(max_length=33)
+    country = models.CharField(verbose_name='Страна', max_length=33)
     year = models.PositiveIntegerField()
     add_date = models.DateField(verbose_name='Время', auto_now_add=True)
     mileage = models.PositiveSmallIntegerField(verbose_name='Пробег', default=0)
@@ -91,7 +83,7 @@ class Car(models.Model):
     )
     state = models.CharField(verbose_name='состояние', max_length=33, choices=CHOICES_STATE)
 
-    def str(self):
+    def __str__(self):
         return f'{self.car_name}'
 
 
@@ -102,7 +94,7 @@ class Comment(models.Model):
     parent_review = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
 
-    def str(self):
+    def __str__(self):
         return f'{self.author} - {self.car}'
 
 
